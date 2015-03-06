@@ -3,6 +3,8 @@ public final static int NUM_ROWS = 20;
 public final static int NUM_COLS = 20;
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> bombs = new ArrayList(); //ArrayList of just the minesweeper buttons that are mined
+boolean response = false;
+boolean gameOver = false;
 
 void setup ()
 {
@@ -39,24 +41,36 @@ public void setBombs()
 
 public void draw ()
 {
-    background( 0 );
-    if(isWon())
-        displayWinningMessage();
+    if (gameOver == false)
+    {
+        if(isWon())
+        {
+            background(00;
+            displayWinningMessage();
+            gameOver = true;
+        }
+    }
 }
 public boolean isWon()
 {
-    for (int i = 0; i < bombs.size(); i++)
+    for (int i = 0; i < NUM_ROWS; i++)
     {
-        if (bombs.get(i).isClicked() == true)
+        for (int x = 0; x < NUM_COLS; x++)
         {
-            return false;
+            if (!bombs.contains(buttons[i][x] && buttons[i][x].isClicked())
+            {
+                if (i == NUM_ROWS - 1 && x == NUM_COLS - 1)
+                {
+                    return true;
+                }
+            }
         }
     }
-    return true;
+    return false;
 }
 public void displayLosingMessage()
 {
-    String loseMsg = "YOU SUCK";
+    String loseMsg = "YOU SUCK YAH NERD!";
     for (int i = 1; i <= loseMsg.length(); i++)
         {
             buttons[10][i].setLabel(loseMsg.substring(i - 1, i));
@@ -107,10 +121,14 @@ public class MSButton
     {
         clicked = true;
         if (keyPressed){marked =! marked;}
-        else if (bombs.contains(this)){displayLosingMessage();}
+        else if (bombs.contains(this))
+        {
+            displayLosingMessage();
+            gameOver = true;
+        }
         else if (countBombs(r, c) > 0)
         {
-            label = Integer.toString(countBombs(r, c));
+            label = countBombs(r,c) + "";
         }
         else
         {
